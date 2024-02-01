@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NewPlace } from "./places/pages/NewPlace";
+import { UserPlaces } from "./places/pages/UserPlaces";
 import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
 import { Users } from "./user/pages/Users";
 
@@ -25,14 +26,18 @@ const router = createBrowserRouter([
 				element: <Users />,
 			},
 			{
+				path: "/:userId/places",
+				element: <UserPlaces />,
+			},
+			{
 				path: "/places/new",
 				element: <NewPlace />,
 			},
+			{
+				path: "*",
+				element: <Users />,
+			},
 		],
-	},
-	{
-		path: "*",
-		element: <Users />,
 	},
 ]);
 
