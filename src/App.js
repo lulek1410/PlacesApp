@@ -1,57 +1,98 @@
-import React from "react";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import {
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+  Navigate,
+} from "react-router-dom";
 import { NewPlace } from "./places/pages/NewPlace";
 import { UpdatePlace } from "./places/pages/UpdatePlace";
 import { UserPlaces } from "./places/pages/UserPlaces";
 import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
 import { Auth } from "./user/pages/Auth";
 import { Users } from "./user/pages/Users";
+import { AuthContext } from "./shared/context/auth-context";
 
 const Layout = () => {
-	return (
-		<>
-			<MainNavigation />
-			<main>
-				<Outlet />
-			</main>
-		</>
-	);
+  return (
+    <>
+      <MainNavigation />
+      <main>
+        <Outlet />
+      </main>
+    </>
+  );
 };
 
-const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Layout />,
-		children: [
-			{
-				path: "/",
-				element: <Users />,
-			},
-			{
-				path: "/:userId/places",
-				element: <UserPlaces />,
-			},
-			{
-				path: "/places",
-				children: [
-					{ path: "new", element: <NewPlace /> },
-					{ path: ":placeId", element: <UpdatePlace /> },
-				],
-			},
-			{
-				path: "/auth",
-				element: <Auth />,
-			},
-			{
-				path: "*",
-				element: <Users />,
-			},
-		],
-	},
+const loggedOutRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Users />,
+      },
+      {
+        path: "/:userId/places",
+        element: <UserPlaces />,
+      },
+      {
+        path: "/auth",
+        element: <Auth />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/auth" replace />,
+      },
+    ],
+  },
+]);
+
+const loggedInRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Users />,
+      },
+      {
+        path: "/:userId/places",
+        element: <UserPlaces />,
+      },
+      {
+        path: "/places",
+        children: [
+          { path: "new", element: <NewPlace /> },
+          { path: ":placeId", element: <UpdatePlace /> },
+        ],
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
+      },
+    ],
+  },
 ]);
 
 const App = () => {
-	return <RouterProvider router={router} />;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      <RouterProvider router={isLoggedIn ? loggedInRouter : loggedOutRouter} />
+    </AuthContext.Provider>
+  );
 };
 
 export default App;
