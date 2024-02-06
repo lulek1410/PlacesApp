@@ -1,8 +1,10 @@
 import React from "react";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { NewPlace } from "./places/pages/NewPlace";
+import { UpdatePlace } from "./places/pages/UpdatePlace";
 import { UserPlaces } from "./places/pages/UserPlaces";
 import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
+import { Auth } from "./user/pages/Auth";
 import { Users } from "./user/pages/Users";
 
 const Layout = () => {
@@ -30,8 +32,15 @@ const router = createBrowserRouter([
 				element: <UserPlaces />,
 			},
 			{
-				path: "/places/new",
-				element: <NewPlace />,
+				path: "/places",
+				children: [
+					{ path: "new", element: <NewPlace /> },
+					{ path: ":placeId", element: <UpdatePlace /> },
+				],
+			},
+			{
+				path: "/auth",
+				element: <Auth />,
 			},
 			{
 				path: "*",

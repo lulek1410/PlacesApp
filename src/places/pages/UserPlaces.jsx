@@ -14,10 +14,10 @@ const testData = [
 			lat: 40.7484445,
 			lng: -73.9882447,
 		},
-		creator: 2,
+		creator: 1,
 	},
 	{
-		id: 1,
+		id: 2,
 		title: "Empire state building",
 		description:
 			"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium provident culpa fugit eveniet quidem ut eligendi vitae earum incidunt repellendus facilis nam blanditiis quo adipisci iste, fuga maiores, accusamus corrupti?",
@@ -30,8 +30,8 @@ const testData = [
 		creator: 1,
 	},
 	{
-		id: 1,
-		title: "Empire state building",
+		id: 3,
+		title: "Emp. state building",
 		description:
 			"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium provident culpa fugit eveniet quidem ut eligendi vitae earum incidunt repellendus facilis nam blanditiis quo adipisci iste, fuga maiores, accusamus corrupti?",
 		image: "https://media.timeout.com/images/101705309/image.jpg",
@@ -40,7 +40,7 @@ const testData = [
 			lat: 40.7484445,
 			lng: -73.9882447,
 		},
-		creator: 2,
+		creator: 1,
 	},
 ];
 

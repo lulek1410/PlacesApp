@@ -8,6 +8,7 @@ import { Map } from "../../shared/components/UIElements/Map";
 
 export const PlaceItem = (props) => {
 	const [showMap, setShowMap] = useState(false);
+	const [showConfirmModal, setShowConfirmModal] = useState(false);
 
 	const openMapHandler = () => {
 		setShowMap(true);
@@ -15,6 +16,19 @@ export const PlaceItem = (props) => {
 
 	const closeMapHandler = () => {
 		setShowMap(false);
+	};
+
+	const showDeleteWarningHandler = () => {
+		setShowConfirmModal(true);
+	};
+
+	const cancelDeleteHandler = () => {
+		setShowConfirmModal(false);
+	};
+
+	const confirmDeleteHandler = () => {
+		console.log("Deleting...");
+		setShowConfirmModal(false);
 	};
 
 	return (
@@ -31,6 +45,27 @@ export const PlaceItem = (props) => {
 					<Map center={props.coordinates} zoom={16} />
 				</div>
 			</Modal>
+			<Modal
+				show={showConfirmModal}
+				onCancel={cancelDeleteHandler}
+				header="Are you sure?"
+				footerClass="place-item__modal-actions"
+				footer={
+					<>
+						<Button inverse onClick={cancelDeleteHandler}>
+							CANCEL
+						</Button>
+						<Button danger onClick={confirmDeleteHandler}>
+							DELETE
+						</Button>
+					</>
+				}
+			>
+				<p>
+					Do you want to proceed? Please nmte that it can't be undone
+					thereafter.
+				</p>
+			</Modal>
 			<li className="place-item">
 				<Card className="place-item__content">
 					<div className="place-item__image">
@@ -46,7 +81,9 @@ export const PlaceItem = (props) => {
 							VIEW ON MAP
 						</Button>
 						<Button to={`/places/${props.id}`}>EDIT</Button>
-						<Button danger>DELETE</Button>
+						<Button danger onClick={showDeleteWarningHandler}>
+							DELETE
+						</Button>
 					</div>
 				</Card>
 			</li>
