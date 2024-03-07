@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import { ErrorModal } from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { UsersList } from "../components/UsersList";
 
-const testData = [
-	{
-		id: 1,
-		name: "Mike Shwartz",
-		image:
-			"https://i.pinimg.com/originals/07/33/ba/0733ba760b29378474dea0fdbcb97107.png",
-		places: 3,
-	},
-];
-
 export const Users = () => {
-	return <UsersList items={testData} />;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const sendRequest = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://localhost:5000/api/users");
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+        setData(responseData);
+      } catch (error) {
+        setError(error.message);
+      }
+      setIsLoading(false);
+    };
+
+    sendRequest();
+  }, []);
+
+  const errorHandler = () => {
+    setError(null);
+  };
+  console.log(data);
+  return (
+    <>
+      <ErrorModal error={error} onClear={errorHandler} />
+      {isLoading && <LoadingSpinner asOverlay />}
+      {!isLoading && data && <UsersList items={data} />}
+    </>
+  );
 };
