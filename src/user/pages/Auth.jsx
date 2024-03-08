@@ -31,7 +31,7 @@ export const Auth = () => {
     e.preventDefault();
     if (isInLoginMode) {
       try {
-        await sendRequest(
+        const response = await sendRequest(
           "http://localhost:5000/api/users/login",
           "POST",
           JSON.stringify({
@@ -42,11 +42,11 @@ export const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        login();
+        login(response.userId);
       } catch (error) {}
     } else {
       try {
-        await sendRequest(
+        const response = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
           JSON.stringify({
@@ -58,7 +58,7 @@ export const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        login();
+        login(response.userId);
       } catch (error) {}
     }
   };
