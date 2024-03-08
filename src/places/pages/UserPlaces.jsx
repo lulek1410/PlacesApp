@@ -1,54 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PlaceList } from "../components/PlaceList";
 import { useParams } from "react-router-dom";
-
-const testData = [
-	{
-		id: 1,
-		title: "Empire state building",
-		description:
-			"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium provident culpa fugit eveniet quidem ut eligendi vitae earum incidunt repellendus facilis nam blanditiis quo adipisci iste, fuga maiores, accusamus corrupti?",
-		image: "https://media.timeout.com/images/101705309/image.jpg",
-		address: "20 W 34th St., New York, NY 10001, United States",
-		location: {
-			lat: 40.7484445,
-			lng: -73.9882447,
-		},
-		creator: 1,
-	},
-	{
-		id: 2,
-		title: "Empire state building",
-		description:
-			"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium provident culpa fugit eveniet quidem ut eligendi vitae earum incidunt repellendus facilis nam blanditiis quo adipisci iste, fuga maiores, accusamus corrupti?",
-		image: "https://media.timeout.com/images/101705309/image.jpg",
-		address: "20 W 34th St., New York, NY 10001, United States",
-		location: {
-			lat: 40.7484445,
-			lng: -73.9882447,
-		},
-		creator: 1,
-	},
-	{
-		id: 3,
-		title: "Emp. state building",
-		description:
-			"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium provident culpa fugit eveniet quidem ut eligendi vitae earum incidunt repellendus facilis nam blanditiis quo adipisci iste, fuga maiores, accusamus corrupti?",
-		image: "https://media.timeout.com/images/101705309/image.jpg",
-		address: "20 W 34th St., New York, NY 10001, United States",
-		location: {
-			lat: 40.7484445,
-			lng: -73.9882447,
-		},
-		creator: 1,
-	},
-];
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import { ErrorModal } from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 export const UserPlaces = () => {
-	const { userId } = useParams();
-	const lodadePlaces = testData.filter(
-		(place) => place.creator === Number(userId)
-	);
+  const { userId } = useParams();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-	return <PlaceList items={lodadePlaces} />;
+  const [loadedPlaces, setLoadedPlaces] = useState();
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const response = await sendRequest(
+          `http://localhost:5000/api/places/user/${userId}`
+        );
+        setLoadedPlaces(response);
+      } catch (error) {}
+    };
+    fetchPlaces();
+  }, [userId]);
+
+  return (
+    <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
+      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
+    </>
+  );
 };
