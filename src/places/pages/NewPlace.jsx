@@ -46,8 +46,7 @@ export const NewPlace = () => {
           "Content-Type": "application/json",
         }
       );
-      navigate("/");
-      //Redirect user to different page
+      navigate(`/${userId}/places`);
     } catch (error) {}
   };
 
