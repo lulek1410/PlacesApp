@@ -21,7 +21,7 @@ export const UserPlaces = () => {
       } catch (error) {}
     };
     fetchPlaces();
-  }, [userId]);
+  }, [userId, sendRequest]);
 
   const placeDeletedHandler = (deletedPlaceId) => {
     setLoadedPlaces((prevPlaces) =>

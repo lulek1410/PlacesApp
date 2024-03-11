@@ -1,7 +1,7 @@
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 
-import Input from "../../shared/FormElements/Input";
 import Button from "../../shared/FormElements/Button";
+import Input from "../../shared/FormElements/Input";
 import { useForm } from "../../shared/hooks/form-hook";
 
 import {
@@ -9,12 +9,12 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 
-import "./PlaceForm.css";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
+import { useNavigate } from "react-router-dom";
 import { ErrorModal } from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import "./PlaceForm.css";
 
 export const NewPlace = () => {
   const { userId } = useContext(AuthContext);

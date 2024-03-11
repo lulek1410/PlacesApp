@@ -58,12 +58,12 @@ export const UpdatePlace = () => {
       } catch (error) {}
     };
     fetchPlace();
-  }, [sendRequest, placeId]);
+  }, [sendRequest, setFormData, placeId]);
 
   const placeUpdateSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await sendRequest(
+      await sendRequest(
         `http://localhost:5000/api/places/${placeId}`,
         "PATCH",
         JSON.stringify({
