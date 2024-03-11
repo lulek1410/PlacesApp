@@ -36,7 +36,6 @@ export const ImageUpload = (props) => {
       setIsValid(false);
       fileIsValid = false;
     }
-    console.log(isValid);
     props.onInput(props.id, pickedFile, fileIsValid);
   };
 

@@ -13,7 +13,6 @@ export const Users = () => {
     const fetchUsers = async () => {
       try {
         const response = await sendRequest("http://localhost:5000/api/users");
-
         setData(response);
       } catch (error) {}
     };
