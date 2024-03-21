@@ -18,7 +18,7 @@ import "./PlaceForm.css";
 import { ImageUpload } from "../../shared/FormElements/ImageUpload";
 
 export const NewPlace = () => {
-  const { userId } = useContext(AuthContext);
+  const { userId, token } = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const navigate = useNavigate();
   const [formState, inputHandler] = useForm(
@@ -41,7 +41,9 @@ export const NewPlace = () => {
       formData.append("address", formState.inputs.address.value);
       formData.append("creator", userId);
       formData.append("image", formState.inputs.image.value);
-      await sendRequest("http://localhost:5000/api/places", "POST", formData);
+      await sendRequest("http://localhost:5000/api/places", "POST", formData, {
+        Authorization: "Bearer " + token,
+      });
       navigate(`/${userId}/places`);
     } catch (error) {}
   };

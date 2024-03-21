@@ -78,22 +78,24 @@ const loggedInRouter = createBrowserRouter([
 ]);
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token);
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
-      <RouterProvider router={isLoggedIn ? loggedInRouter : loggedOutRouter} />
+    <AuthContext.Provider
+      value={{ isLoggedIn: !!token, token, userId, login, logout }}
+    >
+      <RouterProvider router={token ? loggedInRouter : loggedOutRouter} />
     </AuthContext.Provider>
   );
 };

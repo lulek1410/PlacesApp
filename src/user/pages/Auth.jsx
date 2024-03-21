@@ -43,7 +43,7 @@ export const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        login(response.userId);
+        login(response.userId, response.token);
       } catch (error) {}
     } else {
       try {
@@ -57,7 +57,7 @@ export const Auth = () => {
           "POST",
           formData
         );
-        login(response.userId);
+        login(response.userId, response.token);
       } catch (error) {}
     }
   };
