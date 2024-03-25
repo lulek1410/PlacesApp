@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import {
   Navigate,
   Outlet,
@@ -6,10 +6,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 
-import { NewPlace } from "./places/pages/NewPlace";
-import { UpdatePlace } from "./places/pages/UpdatePlace";
-import { UserPlaces } from "./places/pages/UserPlaces";
-import { Auth } from "./user/pages/Auth";
 import { Users } from "./user/pages/Users";
 
 import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
@@ -17,6 +13,12 @@ import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
 import { AuthContext } from "./shared/context/auth-context";
 
 import { useAuth } from "./shared/hooks/auth-hook";
+import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+
+const NewPlace = lazy(() => import("./places/pages/NewPlace"));
+const UserPlaces = lazy(() => import("./places/pages/UserPlaces"));
+const UpdatePlace = lazy(() => import("./places/pages/UpdatePlace"));
+const Auth = lazy(() => import("./user/pages/Auth"));
 
 const Layout = () => {
   return (
@@ -84,12 +86,20 @@ const loggedInRouter = createBrowserRouter([
 
 const App = () => {
   const { login, logout, token, userId } = useAuth();
-  
+
   return (
     <AuthContext.Provider
       value={{ isLoggedIn: !!token, token, userId, login, logout }}
     >
-      <RouterProvider router={token ? loggedInRouter : loggedOutRouter} />
+      <Suspense
+        fallback={
+          <div className="center">
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <RouterProvider router={token ? loggedInRouter : loggedOutRouter} />
+      </Suspense>
     </AuthContext.Provider>
   );
 };

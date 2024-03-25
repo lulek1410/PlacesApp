@@ -15,7 +15,7 @@ import { ErrorModal } from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 
-export const UpdatePlace = () => {
+const UpdatePlace = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const { userId, token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -129,3 +129,5 @@ export const UpdatePlace = () => {
     </>
   );
 };
+
+export default UpdatePlace;

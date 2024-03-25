@@ -16,7 +16,7 @@ import { ErrorModal } from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { ImageUpload } from "../../shared/FormElements/ImageUpload";
 
-export const Auth = () => {
+const Auth = () => {
   const [isInLoginMode, setIsInLoginMode] = useState(true);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
@@ -147,3 +147,5 @@ export const Auth = () => {
     </>
   );
 };
+
+export default Auth;

@@ -17,7 +17,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./PlaceForm.css";
 import { ImageUpload } from "../../shared/FormElements/ImageUpload";
 
-export const NewPlace = () => {
+const NewPlace = () => {
   const { userId, token } = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const navigate = useNavigate();
@@ -94,3 +94,5 @@ export const NewPlace = () => {
     </>
   );
 };
+
+export default NewPlace;
