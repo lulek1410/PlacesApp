@@ -1,5 +1,5 @@
 # PlacesApp
-##Technology used
+## Technology used
 * React, javascript
-##Hosting
+## Hosting
 The application is hosted at [firebase](https://mern-412020.web.app)
